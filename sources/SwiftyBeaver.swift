@@ -30,6 +30,7 @@ public class SwiftyBeaver {
 
     // internal, initiated on first destination
     static var crashReporter: CrashReporter?
+    static let crashSendingDelay = 3.0  // in seconds
 
 
     // MARK: Destination Handling
@@ -38,6 +39,13 @@ public class SwiftyBeaver {
     public class func addDestination(destination: BaseDestination) -> Bool {
         if crashReporter == nil {
             crashReporter = CrashReporter()
+            delay(crashSendingDelay, closure: {
+                if let crashReporter = crashReporter {
+                    if crashReporter.appDidCrash() {
+                        crashReporter.sendCrashReport()
+                    }
+                }
+            })
         }
         if destinations.contains(destination) {
             return false
@@ -144,24 +152,38 @@ public class SwiftyBeaver {
         }
     }
 
-  /**
-   Flush all destinations to make sure all logging messages have been written out
-   Returns after all messages flushed or timeout seconds
+    /**
+     Flush all destinations to make sure all logging messages have been written out
+     Returns after all messages flushed or timeout seconds
 
-   - returns: true if all messages flushed, false if timeout occurred
-   */
-  public class func flush(secondTimeout: Int64) -> Bool {
-    let grp = dispatch_group_create()
-    for dest in destinations {
-      if let queue = dest.queue {
-        dispatch_group_enter(grp)
-        dispatch_async(queue, {
-          dest.flush()
-          dispatch_group_leave(grp)
-        })
-      }
+     - returns: true if all messages flushed, false if timeout occurred
+     */
+    public class func flush(secondTimeout: Int64) -> Bool {
+        let grp = dispatch_group_create()
+        for dest in destinations {
+            if let queue = dest.queue {
+                dispatch_group_enter(grp)
+                dispatch_async(queue, {
+                    dest.flush()
+                    dispatch_group_leave(grp)
+                })
+            }
+        }
+        let waitUntil = dispatch_time(DISPATCH_TIME_NOW, secondTimeout * 1000000000)
+        return dispatch_group_wait(grp, waitUntil) == 0
     }
-    let waitUntil = dispatch_time(DISPATCH_TIME_NOW, secondTimeout * 1000000000)
-    return dispatch_group_wait(grp, waitUntil) == 0
-  }
+
+
+    /// Excecutes a code block after given seconds in the background
+    class func delay(delayInSeconds: Double, closure: ()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delayInSeconds * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_global_queue(QOS_CLASS_UTILITY, 0),
+            closure
+        )
+    }
+
 }
