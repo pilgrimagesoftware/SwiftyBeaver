@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		048E6BFA1CDBB68E00DC9116 /* DestinationSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E6BF91CDBB68E00DC9116 /* DestinationSetTests.swift */; };
+		55EF81B11CDE9842001BF728 /* SBCrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF81B01CDE9842001BF728 /* SBCrashReporter.swift */; };
+		55EF81B31CDE9842001BF728 /* SBCrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF81B01CDE9842001BF728 /* SBCrashReporter.swift */; };
+		55EF81B41CDE9842001BF728 /* SBCrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF81B01CDE9842001BF728 /* SBCrashReporter.swift */; };
+		55EF81B51CDE9842001BF728 /* SBCrashReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EF81B01CDE9842001BF728 /* SBCrashReporter.swift */; };
 		9E195B0A1C6B3B4600D924CB /* AES256CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E195B091C6B3B4600D924CB /* AES256CBC.swift */; };
 		9E195B0B1C6B3B4600D924CB /* AES256CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E195B091C6B3B4600D924CB /* AES256CBC.swift */; };
 		9E195B0C1C6B3B4600D924CB /* AES256CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E195B091C6B3B4600D924CB /* AES256CBC.swift */; };
@@ -60,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		048E6BF91CDBB68E00DC9116 /* DestinationSetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DestinationSetTests.swift; sourceTree = "<group>"; };
+		55EF81B01CDE9842001BF728 /* SBCrashReporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SBCrashReporter.swift; path = sources/SBCrashReporter.swift; sourceTree = "<group>"; };
 		9E195B091C6B3B4600D924CB /* AES256CBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AES256CBC.swift; path = sources/AES256CBC.swift; sourceTree = "<group>"; };
 		9E195B0E1C6B3B6F00D924CB /* AES256CBCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AES256CBCTests.swift; sourceTree = "<group>"; };
 		9E195B101C6B766D00D924CB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -134,6 +139,7 @@
 				9E31D62C1C185EE3004E0980 /* ConsoleDestination.swift */,
 				9E31D62D1C185EE3004E0980 /* FileDestination.swift */,
 				9ED096F71C521C6900FE3059 /* SBPlatformDestination.swift */,
+				55EF81B01CDE9842001BF728 /* SBCrashReporter.swift */,
 				9E31D6281C185ECD004E0980 /* SwiftyBeaver.swift */,
 			);
 			name = sources;
@@ -312,7 +318,7 @@
 		9EDCE3DB1C09D211002FA4A7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Sebastian Kreutzberger";
 				TargetAttributes = {
@@ -330,6 +336,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 9EDCE3DA1C09D211002FA4A7;
 			productRefGroup = 9EDCE3E51C09D211002FA4A7 /* Products */;
@@ -413,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E31D62F1C185EE3004E0980 /* ConsoleDestination.swift in Sources */,
+				55EF81B11CDE9842001BF728 /* SBCrashReporter.swift in Sources */,
 				9ED096F81C521C6900FE3059 /* SBPlatformDestination.swift in Sources */,
 				9E31D6291C185ECD004E0980 /* SwiftyBeaver.swift in Sources */,
 				9E31D6301C185EE3004E0980 /* FileDestination.swift in Sources */,
@@ -439,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACE597771C1882DF0031451F /* ConsoleDestination.swift in Sources */,
+				55EF81B31CDE9842001BF728 /* SBCrashReporter.swift in Sources */,
 				9ED096F91C521C6900FE3059 /* SBPlatformDestination.swift in Sources */,
 				ACE597781C1882DF0031451F /* SwiftyBeaver.swift in Sources */,
 				ACE597791C1882DF0031451F /* FileDestination.swift in Sources */,
@@ -452,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACE597881C18830D0031451F /* ConsoleDestination.swift in Sources */,
+				55EF81B41CDE9842001BF728 /* SBCrashReporter.swift in Sources */,
 				9ED096FA1C521C6900FE3059 /* SBPlatformDestination.swift in Sources */,
 				ACE597891C18830D0031451F /* SwiftyBeaver.swift in Sources */,
 				ACE5978A1C18830D0031451F /* FileDestination.swift in Sources */,
@@ -465,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACE597991C18832E0031451F /* ConsoleDestination.swift in Sources */,
+				55EF81B51CDE9842001BF728 /* SBCrashReporter.swift in Sources */,
 				9ED096FB1C521C6900FE3059 /* SBPlatformDestination.swift in Sources */,
 				ACE5979A1C18832E0031451F /* SwiftyBeaver.swift in Sources */,
 				ACE5979B1C18832E0031451F /* FileDestination.swift in Sources */,
