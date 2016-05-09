@@ -1,5 +1,5 @@
 //
-//  SBCrashReporter.swift
+//  CrashReporter.swift
 //  SwiftyBeaver
 //
 //  Created by Gregory Hutchinson on 5/7/16.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-//TODO: Create SBCrashReporterError enum
+//TODO: Create CrashReporterError enum
 //TODO: Add Proper Errors for all 'catch' statements
 
 //TODO: Write Sample App to Crash via buttons, write app to display crash log in app?
@@ -16,7 +16,7 @@ import Foundation
 //TODO: Test on iOS / tvOS / OSX / Linux / All the things
 
 /// SwiftyBeaver Crash Reporter
-public class SBCrashReporter {
+public class CrashReporter {
     /// Crash Log File Name
     private static let crashLogFileName = "sbplatform_crashes.json"
     private static let fileManager = NSFileManager.defaultManager()
@@ -83,7 +83,7 @@ public class SBCrashReporter {
     private func doesCrashLogExist() -> Bool {
         let fileManager = NSFileManager.defaultManager()
 
-        return fileManager.fileExistsAtPath(SBCrashReporter.crashLogURL.path!)
+        return fileManager.fileExistsAtPath(CrashReporter.crashLogURL.path!)
     }
 
 // MARK: Process & Send Crash Logs
@@ -92,7 +92,7 @@ public class SBCrashReporter {
     /// or append new crash log (if we haven't sent it yet). After sending the log file
     /// will be deleted
     private func processNewCrash(crashLog: [String: AnyObject]) {
-        let crashLogFileURL = SBCrashReporter.crashLogURL
+        let crashLogFileURL = CrashReporter.crashLogURL
 
         if !doesCrashLogExist() {
             let logs = logStringFromCrashLog(crashLog)
@@ -104,9 +104,9 @@ public class SBCrashReporter {
 
     /// Sends Crash Report to any / all SwiftyBeaver destinations available
     private func sendCrashReport() {
-        let crashLogFileURL = SBCrashReporter.crashLogURL
+        let crashLogFileURL = CrashReporter.crashLogURL
         guard let crashLogFilePath = crashLogFileURL.path else {
-            //TODO: Replace with an SBCrashReporterError
+            //TODO: Replace with an CrashReporterError
             print("SwiftyBeaver Crash Reporter could not get crash log file path.")
             return
         }
@@ -122,17 +122,17 @@ public class SBCrashReporter {
                     }else if destination.dynamicType === ConsoleDestination.self {
                         sendCrashReportToConsoleDestination(destination as! ConsoleDestination, crashLog: jsonString)
                     }else {
-                        //TODO: Replace with an SBCrashReporterError
+                        //TODO: Replace with an CrashReporterError
                         print("Unknown destionation type... unable to send crash logs.")
                     }
                 }
 
             }else {
-                //TODO: Replace with an SBCrashReporterError
+                //TODO: Replace with an CrashReporterError
                 print("SwiftyBeaver Crash Reporter could not create a String from crash data to log")
             }
         } catch let error as NSError {
-            //TODO: Replace with an SBCrashReporterError
+            //TODO: Replace with an CrashReporterError
             print("SwiftyBeaver Crash Reporter could not read from crash log file \(crashLogFileURL). \(error)")
         }
     }
@@ -174,12 +174,12 @@ public class SBCrashReporter {
     /// Writes logs to the Crash Log File
     ///
     /// - parameter logs: String
-    /// - parameter fileURL: NSURL defaults to `SBCrashReporter.crashLogURL()`
-    private func writeToCrashLogFile(logs: String, crashLogFileURL: NSURL = SBCrashReporter.crashLogURL) {
+    /// - parameter fileURL: NSURL defaults to `CrashReporter.crashLogURL()`
+    private func writeToCrashLogFile(logs: String, crashLogFileURL: NSURL = CrashReporter.crashLogURL) {
         do {
             try logs.writeToURL(crashLogFileURL, atomically: true, encoding: NSUTF8StringEncoding)
         }catch let error as NSError {
-            //TODO: Replace with an SBCrashReporterError
+            //TODO: Replace with an CrashReporterError
             print("SwiftyBeaver Crash Reporter not could write new crash to crash log at file \(crashLogFileURL). \(error)")
         }
     }
@@ -191,10 +191,10 @@ public class SBCrashReporter {
     /// element
     ///
     /// - parameter crashLog: [String: AnyObject] (a single crash log dictionary)
-    /// - parameter fileURL: NSURL defaults to `SBCrashReporter.crashLogURL()`
-    private func appendToCrashLogFile(crashLog: [String: AnyObject], crashLogFileURL: NSURL = SBCrashReporter.crashLogURL) {
+    /// - parameter fileURL: NSURL defaults to `CrashReporter.crashLogURL()`
+    private func appendToCrashLogFile(crashLog: [String: AnyObject], crashLogFileURL: NSURL = CrashReporter.crashLogURL) {
         guard let crashLogFilePath = crashLogFileURL.path else {
-            //TODO: Replace with an SBCrashReporterError
+            //TODO: Replace with an CrashReporterError
             print("SwiftyBeaver Crash Reporter could not get crash log file path.")
             return
         }
@@ -218,15 +218,15 @@ public class SBCrashReporter {
                     writeToCrashLogFile(updatedLogs)
 
                 }else {
-                    //TODO: Replace with an SBCrashReporterError
+                    //TODO: Replace with an CrashReporterError
                     print("no idea what this existing JSON is... sorry... \(existingCrashLogJSON)")
                 }
             }catch let error as NSError {
-                //TODO: Replace with an SBCrashReporterError
+                //TODO: Replace with an CrashReporterError
                 print("SwiftyBeaver Crash Reporter could not create a JSON String from crash data. \(error)")
             }
         }catch let error as NSError {
-            //TODO: Replace with an SBCrashReporterError
+            //TODO: Replace with an CrashReporterError
             print("SwiftyBeaver Crash Reporter could not read existing crash logs to append to. \(error)")
         }
     }
@@ -237,10 +237,10 @@ public class SBCrashReporter {
         let fileManager = NSFileManager.defaultManager()
 
         do {
-            try fileManager.removeItemAtURL(SBCrashReporter.crashLogURL)
+            try fileManager.removeItemAtURL(CrashReporter.crashLogURL)
         }catch let error as NSError {
-            //TODO: Replace with an SBCrashReporterError
-            print("SwiftyBeaver Crash Reporter could not delete old crash log file \(SBCrashReporter.crashLogURL). \(error)")
+            //TODO: Replace with an CrashReporterError
+            print("SwiftyBeaver Crash Reporter could not delete old crash log file \(CrashReporter.crashLogURL). \(error)")
         }
     }
 
@@ -259,12 +259,12 @@ public class SBCrashReporter {
                 let line = "\(jsonString)"
                 return line
             }else {
-                //TODO: Replace with an SBCrashReporterError
+                //TODO: Replace with an CrashReporterError
                 print("SwiftyBeaver Crash Reporter could not create a JSON String from crash data")
                 return ""
             }
         }catch let error as NSError {
-            //TODO: Replace with an SBCrashReporterError
+            //TODO: Replace with an CrashReporterError
             print("SwiftyBeaver Crash Reporter could not convert crash log to JSON for writing to crash log. \(error)")
             return ""
         }
@@ -281,12 +281,12 @@ public class SBCrashReporter {
                 let line = "\(jsonString)"
                 return line
             }else {
-                //TODO: Replace with an SBCrashReporterError
+                //TODO: Replace with an CrashReporterError
                 print("SwiftyBeaver Crash Reporter could not create a JSON String from crash data")
                 return ""
             }
         }catch let error as NSError {
-            //TODO: Replace with an SBCrashReporterError
+            //TODO: Replace with an CrashReporterError
             print("SwiftyBeaver Crash Reporter could not convert crash log to JSON for writing to crash log. \(error)")
             return ""
         }

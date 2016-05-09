@@ -12,11 +12,9 @@ import Foundation
 public class SwiftyBeaver {
 
     /// version string of framework
-    public static let version = "0.5.2"  // UPDATE ON RELEASE!
+    public static let version = "0.5.3"  // UPDATE ON RELEASE!
     /// build number of framework
-    public static let build = 520 // version 0.7.0 -> 700, UPDATE ON RELEASE!
-    /// the crash reporter
-    public static var crashReporter: SBCrashReporter?
+    public static let build = 530 // version 0.7.0 -> 700, UPDATE ON RELEASE!
 
     public enum Level: Int {
         case Verbose = 0
@@ -24,22 +22,23 @@ public class SwiftyBeaver {
         case Info = 2
         case Warning = 3
         case Error = 4
-    }
-
-    // MARK: Crash Reporting
-    //????: Not sure yet on instantiation, naming here...
-    public class func setupCrashReporter() {
-        let reporter = SBCrashReporter()
-        crashReporter = reporter
+        case Crash = 5
     }
 
     // a set of active destinations
     public private(set) static var destinations = Set<BaseDestination>()
 
+    // internal, initiated on first destination
+    static var crashReporter: CrashReporter?
+
+
     // MARK: Destination Handling
 
     /// returns boolean about success
     public class func addDestination(destination: BaseDestination) -> Bool {
+        if crashReporter == nil {
+            crashReporter = CrashReporter()
+        }
         if destinations.contains(destination) {
             return false
         }
@@ -112,6 +111,11 @@ public class SwiftyBeaver {
     public class func error(@autoclosure message: () -> Any, _
         path: String = #file, _ function: String = #function, line: Int = #line) {
         dispatch_send(Level.Error, message: message, thread: threadName(), path: path, function: function, line: line)
+    }
+
+    /// internally logs a crash. Message is a JSON string of crash data
+    class func crash(jsonCrash: String) {
+        dispatch_send(Level.Crash, message: jsonCrash, thread: "", path: "", function: "", line: 0)
     }
 
     /// internal helper which dispatches send to dedicated queue if minLevel is ok
