@@ -10,6 +10,7 @@ disabled_rules: # rule identifiers to exclude from running
 - valid_docs   # /// is valid and used by Xcode
 - cyclomatic_complexity
 - variable_name
+- todo
 
 opt_in_rules: # some rules are only opt-in
 - empty_count

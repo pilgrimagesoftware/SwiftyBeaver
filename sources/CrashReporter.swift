@@ -106,21 +106,31 @@ public class CrashReporter {
             return
         }
         do {
-            let data = try NSData(contentsOfURL: NSURL(fileURLWithPath: crashLogFilePath), options: .DataReadingMappedIfSafe)
+            let data = try NSData(contentsOfURL: NSURL(fileURLWithPath: crashLogFilePath),
+                                  options: .DataReadingMappedIfSafe)
 
             if let jsonString = String(data: data, encoding: NSUTF8StringEncoding) {
+
+
+                /*
+                 // needs refactoring to use log.crash
+
                 for destination in SwiftyBeaver.destinations {
                     if destination.dynamicType === SBPlatformDestination.self {
-                        sendCrashReportToSBPlatformDestination(destination as! SBPlatformDestination, crashLog: jsonString)
+                        sendCrashReportToSBPlatformDestination(destination as?
+                 SBPlatformDestination, crashLog: jsonString)
                     } else if destination.dynamicType === FileDestination.self {
-                        sendCrashReportToFileDestination(destination as! FileDestination, crashLog: jsonString)
+                        sendCrashReportToFileDestination(destination as?
+                 FileDestination, crashLog: jsonString)
                     } else if destination.dynamicType === ConsoleDestination.self {
-                        sendCrashReportToConsoleDestination(destination as! ConsoleDestination, crashLog: jsonString)
+                        sendCrashReportToConsoleDestination(destination as!
+                 ConsoleDestination, crashLog: jsonString)
                     } else {
                         //TODO: Replace with an CrashReporterError
                         NSLog("Unknown destionation type... unable to send crash logs.")
                     }
                 }
+                */
 
             } else {
                 //TODO: Replace with an CrashReporterError
@@ -175,7 +185,7 @@ public class CrashReporter {
             try logs.writeToURL(crashLogFileURL, atomically: true, encoding: NSUTF8StringEncoding)
         } catch let error as NSError {
             //TODO: Replace with an CrashReporterError
-            NSLog("SwiftyBeaver Crash Reporter not could write new crash to crash log at file \(crashLogFileURL). \(error)")
+            NSLog("SwiftyBeaver Crash Reporter not could write new crash to \(crashLogFileURL). \(error)")
         }
     }
 
@@ -187,7 +197,8 @@ public class CrashReporter {
     ///
     /// - parameter crashLog: [String: AnyObject] (a single crash log dictionary)
     /// - parameter fileURL: NSURL defaults to `CrashReporter.crashLogURL()`
-    private func appendToCrashLogFile(crashLog: [String: AnyObject], crashLogFileURL: NSURL = CrashReporter.crashLogURL) {
+    private func appendToCrashLogFile(crashLog: [String: AnyObject],
+                                      crashLogFileURL: NSURL = CrashReporter.crashLogURL) {
         guard let crashLogFilePath = crashLogFileURL.path else {
             //TODO: Replace with an CrashReporterError
             NSLog("SwiftyBeaver Crash Reporter could not get crash log file path.")
@@ -195,9 +206,11 @@ public class CrashReporter {
         }
 
         do {
-            let existingCrashLogData = try NSData(contentsOfURL: NSURL(fileURLWithPath: crashLogFilePath), options: .DataReadingMappedIfSafe)
+            let existingCrashLogData = try NSData(contentsOfURL: NSURL(fileURLWithPath: crashLogFilePath),
+                                                  options: .DataReadingMappedIfSafe)
             do {
-                let existingCrashLogJSON = try NSJSONSerialization.JSONObjectWithData(existingCrashLogData, options: .AllowFragments)
+                let existingCrashLogJSON = try NSJSONSerialization.JSONObjectWithData(existingCrashLogData,
+                                                options: .AllowFragments)
 
                 if let json = existingCrashLogJSON as? [[String: AnyObject]] {
 
@@ -235,7 +248,9 @@ public class CrashReporter {
             try fileManager.removeItemAtURL(CrashReporter.crashLogURL)
         } catch let error as NSError {
             //TODO: Replace with an CrashReporterError
-            NSLog("SwiftyBeaver Crash Reporter could not delete old crash log file \(CrashReporter.crashLogURL). \(error)")
+            var msg = "SwiftyBeaver Crash Reporter could not delete old crash log file"
+            msg = msg + " \(CrashReporter.crashLogURL). \(error)"
+            NSLog(msg)
         }
     }
 
@@ -260,7 +275,7 @@ public class CrashReporter {
             }
         } catch let error as NSError {
             //TODO: Replace with an CrashReporterError
-            NSLog("SwiftyBeaver Crash Reporter could not convert crash log to JSON for writing to crash log. \(error)")
+            NSLog("SwiftyBeaver Crash Reporter could not convert crash log to JSON. \(error)")
             return ""
         }
     }
@@ -282,7 +297,7 @@ public class CrashReporter {
             }
         } catch let error as NSError {
             //TODO: Replace with an CrashReporterError
-            NSLog("SwiftyBeaver Crash Reporter could not convert crash log to JSON for writing to crash log. \(error)")
+            NSLog("SwiftyBeaver Crash Reporter could not convert crash log to JSON. \(error)")
             return ""
         }
     }
