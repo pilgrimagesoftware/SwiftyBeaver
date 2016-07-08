@@ -23,4 +23,7 @@ Great for development & release due to its support for many logging destinations
   s.osx.deployment_target = "10.10"
   s.source       = { :git => "https://github.com/SwiftyBeaver/SwiftyBeaver.git", :tag => "0.6.3" }
   s.source_files  = "sources"
+s.pod_target_xcconfig = { 'SWIFT_WHOLE_MODULE_OPTIMIZATION' => 'YES',
+                            'APPLICATION_EXTENSION_API_ONLY' => 'YES',
+                                'SWIFT_VERSION' => '2.3' }
 end
